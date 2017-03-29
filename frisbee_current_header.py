@@ -20,7 +20,7 @@ import sys
 import matplotlib.patches as patches
 import operator
 from matplotlib.animation import FuncAnimation
-from subprocess import call
+#from subprocess import call
 import os
 import time
 
