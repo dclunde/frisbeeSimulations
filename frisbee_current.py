@@ -19,7 +19,7 @@ def Simulation(CHARLIE = False,overwrite = [],gif=False,clear_old=False):
 #    CHARLIE = False
     #@profile for timing things
 #    from frisbee_current_header import grab_from_file,initialize_variables
-#    frisbee_current_header.choose_throw_type()
+    frisbee_current_header.choose_throw_type()
 #    choose_throw_type()
     #frisbee_current_header.which_planet()
     initial_time = time.clock()
