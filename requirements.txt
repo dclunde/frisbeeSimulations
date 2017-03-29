@@ -1,9 +1,9 @@
-math
-random
-pylab
-mpl_toolkits
+#math
+#random
+#pylab
+#mpl_toolkits
 matplotlib
 #sys
-operator
+#operator
 #os
 #time
