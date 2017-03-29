@@ -5,7 +5,7 @@ Created on Fri Mar 24 12:12:24 2017
 @author: dlunde
 """
 
-from frisbee_current import Simulation
+#from frisbee_current import Simulation
 import matplotlib.pyplot as plt
 from matplotlib.widgets import Slider,Button
 
@@ -88,6 +88,7 @@ def set_inputs(event):
 #    print "from sliders",input_vec
 #    write_input()
 #    execfile("frisbee_current.py")
+    from frisbee_current import Simulation
     Simulation(CHARLIE=False,overwrite=get_vals(),clear_old=True)
     return
 
@@ -119,8 +120,11 @@ def print_inputs(event):
 print_button.on_clicked(print_inputs)
 
 def gif_run(event):
+    from frisbee_current import Simulation
     Simulation(CHARLIE=False,gif=True,overwrite=get_vals())
     return
 
 gif_button.on_clicked(gif_run)
+
+plt.show()
 #fig_sliders.canvas.manager.window.attributes('-topmost', 1)
