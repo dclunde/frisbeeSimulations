@@ -368,8 +368,8 @@ def plot_frisbee(i,Fancy=False,html_mpld3=False,html_bokeh=False,html_plotly=Fal
 #    if Fancy:
 #        set_axes_equal(ax)
     
-#    plt.show(block=True) #doesn't allow it to be closed.
-    plt.draw()
+    plt.show(block=True) #doesn't allow it to be closed.
+#    plt.draw()
     return
     
 def make_frisbee(ax,Fancy=False):
