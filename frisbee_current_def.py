@@ -142,13 +142,13 @@ def moments(i,delta_omega_x,delta_omega_y,delta_omega_z):
     
     phi = phi + 90
     #Translate the vectors into the current direction
-    tran = np.array(Translate)
-    convert = np.array([[D_omegax],[D_omegay],[D_omegaz]])  
-    change = tran.dot(convert)
-    print change
-    D_omegax = change[0][0]
-    D_omegay = change[1][0]
-    D_omegaz = change[2][0]
+#    tran = np.array(Translate)
+#    convert = np.array([[D_omegax],[D_omegay],[D_omegaz]])  
+#    change = tran.dot(convert)
+#    print change
+#    D_omegax = change[0][0]
+#    D_omegay = change[1][0]
+#    D_omegaz = change[2][0]
     
 
     return D_omegax, D_omegay, D_omegaz

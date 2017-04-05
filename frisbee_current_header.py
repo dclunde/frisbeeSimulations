@@ -157,7 +157,8 @@ def grab_from_file():
 def choose_throw_type():
     global x,y,z,vx,vy,vz,omega_x,omega_y,omega_z,alpha,phi,alpha_0
     test = 0
-    test = input("0 - Forehand \r1 - Backhand \r2 - Bounce \r3 - Hammer Throw \r4 - High Drop \r5 - Backhand left \rChoose type :")
+#    test = input("0 - Forehand \r1 - Backhand \r2 - Bounce \r3 - Hammer Throw \r4 - High Drop \r5 - Backhand left \rChoose type :")
+    test = input("0 - Forehand \r1 - Backhand \r2 - Bounce \r3 - High Drop \r4 - Backhand left \rChoose type :")
 
     if test == 0:
         # Forehand
@@ -192,7 +193,7 @@ def choose_throw_type():
 #    elif test == 3:
 #        
         
-    elif test == 4:
+    elif test == 3:
         # High drop
         alpha   = -4
         y     = 5.0 
@@ -201,7 +202,7 @@ def choose_throw_type():
         phi     = 0
 
         
-    elif test ==5:
+    elif test ==4:
         # Backhand left
         alpha   = 8
         alpha_0 = -4
