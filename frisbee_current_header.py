@@ -54,7 +54,7 @@ y     = 1.0   # Y initial position
 z     = 0.0   # Z initial position
 vx    = 14    # velocity * math.cos(math.radians(alpha-alpha_0))   # Initial velocity in X position
 vy    = 3     # velocity * math.sin(math.radians(alpha-alpha_0))   # Initial velocity in Y position
-vz    = 10     # Initial Z velocity
+vz    = 0     # Initial Z velocity
 
 #x_0     = 0.0   # X initial position
 #y_0     = 1.0   # Y initial position

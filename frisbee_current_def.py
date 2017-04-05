@@ -25,8 +25,8 @@ def lift_drag(i):
 #    if velocity_vec[i][1]<velocity_on_frisbee[i][1]:
 #        CL = -CL
         
-    if frisbee_vec[1]<0:
-        CL = -CL*0.4
+#    if frisbee_vec[1]<0:
+#        CL = -CL*0.4
     
     #CL = CLO + CLA*alpha*math.pi/180.00 # Lift coefficent 
     #CD = CDO + CDA*((alpha-alpha_0)*math.pi/180.0)**2 # drag coefficient
