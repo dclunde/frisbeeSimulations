@@ -162,65 +162,113 @@ def choose_throw_type():
 
     if test == 0:
         # Forehand
-        alpha   = 8
-        alpha_0 = -4
-        omega_y    = 10
+        alpha    = 8        # Angle of attack
+        alpha_0  = -4       # Initial Angle of Attack according to frisbee
+        phi      = 0        # Z rotation Angle
         
-        vx    = 14  
-        vy    = 3 
-        phi     = 0
+        # Initial Variables
+        x     = 0.0   # X initial position
+        y     = 1.0   # Y initial position
+        z     = 0.0   # Z initial position
+        vx    = 14    # velocity * math.cos(math.radians(alpha-alpha_0))   # Initial velocity in X position
+        vy    = 3     # velocity * math.sin(math.radians(alpha-alpha_0))   # Initial velocity in Y position
+        vz    = 0     # Initial Z velocity
+        
+        omega_x   = 0        # Initial speed of rotation in x direction (rot/s)
+        omega_y   = 10      # Initial speed of rotation in y direction (rot/s)
+        omega_z   = 0        # Initial speed of rotation in z direction (rot/s)
     
     elif test == 1:
         # Backhand
-        alpha   = 8
-        alpha_0 = -4
-        omega_y    = - 10
-        phi     = 0
-
-        vx    = 14  
-        vy    = 3
+        alpha    = 8        # Angle of attack
+        alpha_0  = -4       # Initial Angle of Attack according to frisbee
+        phi      = 0        # Z rotation Angle
+        
+        # Initial Variables
+        x     = 0.0   # X initial position
+        y     = 1.0   # Y initial position
+        z     = 0.0   # Z initial position
+        vx    = 14    # velocity * math.cos(math.radians(alpha-alpha_0))   # Initial velocity in X position
+        vy    = 3     # velocity * math.sin(math.radians(alpha-alpha_0))   # Initial velocity in Y position
+        vz    = 0     # Initial Z velocity
+        
+        omega_x   = 0        # Initial speed of rotation in x direction (rot/s)
+        omega_y   = -10      # Initial speed of rotation in y direction (rot/s)
+        omega_z   = 0        # Initial speed of rotation in z direction (rot/s)
         
     elif test == 2:
         # Bounce
-        alpha   = -8
-        alpha_0 = -10
-        omega_y    = 10
-        phi     = 0
-
-        vx    = 10 
-        vy    = -7  
-    
+        alpha    = -8        # Angle of attack
+        alpha_0  = -10       # Initial Angle of Attack according to frisbee
+        phi      = 0        # Z rotation Angle
+        
+        # Initial Variables
+        x     = 0.0   # X initial position
+        y     = 1.0   # Y initial position
+        z     = 0.0   # Z initial position
+        vx    = 10    # velocity * math.cos(math.radians(alpha-alpha_0))   # Initial velocity in X position
+        vy    = -7     # velocity * math.sin(math.radians(alpha-alpha_0))   # Initial velocity in Y position
+        vz    = 0     # Initial Z velocity
+        
+        omega_x   = 0        # Initial speed of rotation in x direction (rot/s)
+        omega_y   = 10      # Initial speed of rotation in y direction (rot/s)
+        omega_z   = 0        # Initial speed of rotation in z direction (rot/s)
 #    elif test == 3:
 #        
         
     elif test == 3:
-        # High drop
-        alpha   = -4
-        y     = 5.0 
-        vx    = 1
-        vy    = 0
-        phi     = 0
-
+        # High drop        
+        alpha    = -4        # Angle of attack
+        alpha_0  = -4       # Initial Angle of Attack according to frisbee
+        phi      = 0        # Z rotation Angle
+        
+        # Initial Variables
+        x     = 0.0   # X initial position
+        y     = 5.0   # Y initial position
+        z     = 0.0   # Z initial position
+        vx    = 1    # velocity * math.cos(math.radians(alpha-alpha_0))   # Initial velocity in X position
+        vy    = 0     # velocity * math.sin(math.radians(alpha-alpha_0))   # Initial velocity in Y position
+        vz    = 0     # Initial Z velocity
+        
+        omega_x   = 0        # Initial speed of rotation in x direction (rot/s)
+        omega_y   = 10      # Initial speed of rotation in y direction (rot/s)
+        omega_z   = 0        # Initial speed of rotation in z direction (rot/s)
         
     elif test ==4:
         # Backhand left
-        alpha   = 8
-        alpha_0 = -4
-        omega_y    = 10 
-        phi = 10
-        vx    = 14  
-        vy    = 3
+        alpha    = 8        # Angle of attack
+        alpha_0  = -4       # Initial Angle of Attack according to frisbee
+        phi      = 10        # Z rotation Angle
         
+        # Initial Variables
+        x     = 0.0   # X initial position
+        y     = 1.0   # Y initial position
+        z     = 0.0   # Z initial position
+        vx    = 14    # velocity * math.cos(math.radians(alpha-alpha_0))   # Initial velocity in X position
+        vy    = 3     # velocity * math.sin(math.radians(alpha-alpha_0))   # Initial velocity in Y position
+        vz    = 0     # Initial Z velocity
+        
+        omega_x   = 0        # Initial speed of rotation in x direction (rot/s)
+        omega_y   = 10      # Initial speed of rotation in y direction (rot/s)
+        omega_z   = 0        # Initial speed of rotation in z direction (rot/s)
     else:
         print "Not a possible throw, using forehand"
         # Forehand
-        alpha   = 8
-        alpha_0 = -4
-        omega_y    = 10
+        alpha    = 8        # Angle of attack
+        alpha_0  = -4       # Initial Angle of Attack according to frisbee
+        phi      = 0        # Z rotation Angle
         
-        vx    = 14  
-        vy    = 3 
-        phi     = 0
+        # Initial Variables
+        x     = 0.0   # X initial position
+        y     = 1.0   # Y initial position
+        z     = 0.0   # Z initial position
+        vx    = 14    # velocity * math.cos(math.radians(alpha-alpha_0))   # Initial velocity in X position
+        vy    = 3     # velocity * math.sin(math.radians(alpha-alpha_0))   # Initial velocity in Y position
+        vz    = 0     # Initial Z velocity
+        
+        omega_x   = 0        # Initial speed of rotation in x direction (rot/s)
+        omega_y   = 10      # Initial speed of rotation in y direction (rot/s)
+        omega_z   = 0        # Initial speed of rotation in z direction (rot/s)
         
     return
     
