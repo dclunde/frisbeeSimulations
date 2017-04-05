@@ -126,7 +126,7 @@ def Sliders():
         return
     
     gif_button.on_clicked(gif_run)
-    
+#    plt.draw()
     plt.show(block=True) #this doesn't allow it to be closed with close
     #fig_sliders.canvas.manager.window.attributes('-topmost', 1)
     return

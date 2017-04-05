@@ -45,8 +45,8 @@ else:
 # Flight Variables
 alpha    = 8        # Angle of attack
 alpha_0  = -4       # Initial Angle of Attack according to frisbee
-phi      = 10        # Z rotation Angle
-wind     = [1,0,0]  # 3D vector of wind
+phi      = 0        # Z rotation Angle
+wind     = [0,0,0]  # 3D vector of wind
 
 # Initial Variables
 x     = 0.0   # X initial position
@@ -54,7 +54,7 @@ y     = 1.0   # Y initial position
 z     = 0.0   # Z initial position
 vx    = 14    # velocity * math.cos(math.radians(alpha-alpha_0))   # Initial velocity in X position
 vy    = 3     # velocity * math.sin(math.radians(alpha-alpha_0))   # Initial velocity in Y position
-vz    = 0     # Initial Z velocity
+vz    = 10     # Initial Z velocity
 
 #x_0     = 0.0   # X initial position
 #y_0     = 1.0   # Y initial position
@@ -88,6 +88,8 @@ area = math.pi*pow(diameter/2.0,2) # Area (m^2) of normal frisbee in the AUDL
 #vz   = 0.0    # Velocity in Z position
 cl   = 0.0    # Cooeficient of Life
 cd   = 0.0    # Coeficient of Drag
+cl_w = 0.0    # Wind Lift
+cd_w = 0.0    # Wind Drag
 deltavx = 0.0 # Change in X Velocity
 deltavy = 0.0 # Change in Y Velocity
 deltavz = 0.0 # Change in Z Velocity
@@ -132,6 +134,8 @@ velocity_vec         = [[0,0,0]]*int(total_t/delta_t)
 frisbee_vec          = [[0,0,0]]*int(total_t/delta_t)
 velocity_on_frisbee  = [[0,0,0]]*int(total_t/delta_t)
 lift_vec             = [[0,0,0]]*int(total_t/delta_t)
+wind_on_frisbee      = [[0,0,0]]*int(total_t/delta_t)
+lift_wind_vec        = [[0,0,0]]*int(total_t/delta_t)
 
 def grab_from_file():
 #    global x_0,y_0,z_0,vx_0,vy_0,vz_0,omega_x,omega_y,omega_z,alpha,phi

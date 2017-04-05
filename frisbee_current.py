@@ -14,7 +14,7 @@ def Simulation(CHARLIE = False,overwrite = [],gif=False,clear_old=False):
     from frisbee_current_header import *
     from frisbee_current_def import *
     
-    PRINT = False                    #If true print outputs
+    PRINT = True                    #If true print outputs
 
 #    CHARLIE = False
     #@profile for timing things
@@ -68,9 +68,9 @@ def Simulation(CHARLIE = False,overwrite = [],gif=False,clear_old=False):
         
         forces_out = forces(i)       #Create a list because it doesn't work otherwise
         
-        deltavx = forces_out[0] + forces_out[3] + forces_out[6] + forces_out[9]
-        deltavy = forces_out[1] + forces_out[4] + forces_out[7] + forces_out[10]
-        deltavz = forces_out[2] + forces_out[5] + forces_out[8] + forces_out[11]
+        deltavx = forces_out[0] + forces_out[3] + forces_out[6] + forces_out[9]#  + forces_out[12] + forces_out[15]
+        deltavy = forces_out[1] + forces_out[4] + forces_out[7] + forces_out[10]# + forces_out[13] + forces_out[16]
+        deltavz = forces_out[2] + forces_out[5] + forces_out[8] + forces_out[11]# + forces_out[14] + forces_out[17]
     
         # Delta V * mass = Force * time
         deltavx = deltavx * delta_t / mass
@@ -151,7 +151,7 @@ def Simulation(CHARLIE = False,overwrite = [],gif=False,clear_old=False):
     if PRINT:
         print "Finished simulation in",time.clock()-initial_time,"seconds"                
 
-    plot_frisbee(i,gif=gif,Fancy=False)
+    plot_frisbee(i,gif=gif,Fancy=True)
 #    excel_sheet(i)
 #    analyze_plots(i)
 #    calculate_energy(i,plot=True,save_data=True)

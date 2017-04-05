@@ -16,6 +16,11 @@ def lift_drag(i):
     CD = CDO + CDA*(angle_between(velocity_vec[i],velocity_on_frisbee[i])-\
         math.radians(alpha_0))**2#(alpha-alpha_0)*math.pi/180.0)**2 # drag coefficient
         
+#    CLW = CLO + CLA*angle_between(wind,wind_on_frisbee[i])#alpha*math.pi/180.00 # Lift coefficent 
+#    CDW = CDO + CDA*(angle_between(wind,wind_on_frisbee[i])-\
+#        math.radians(alpha_0))**2#(alpha-alpha_0)*math.pi/180.0)**2 # drag coefficient
+   
+    
     # make lift negative if velocity is below the frisbee
 #    if velocity_vec[i][1]<velocity_on_frisbee[i][1]:
 #        CL = -CL
@@ -26,11 +31,15 @@ def lift_drag(i):
     #CL = CLO + CLA*alpha*math.pi/180.00 # Lift coefficent 
     #CD = CDO + CDA*((alpha-alpha_0)*math.pi/180.0)**2 # drag coefficient
         
+#    return (CL,CD,CLW,CDW)
     return (CL,CD)
 
 def forces(i):                   
     """ Function for updating 3D forces """
-    Rho_Vel_Area = 0.5 * rho * area * (np.linalg.norm(velocity_vec[i-1]))**2 
+    Rho_Vel_Area = 0.5 * rho * area * (np.linalg.norm(velocity_vec[i-1]))**2
+#    Rho_Vel_Area_Lift = 0.5 * rho * area * (np.linalg.norm(wind))**2 
+
+#    cl,cd,cl_w,cd_w = lift_drag(i-1)             #Initialize lift and drag
     cl,cd = lift_drag(i-1)             #Initialize lift and drag
 
     #Inertia = mass * area / pi
@@ -51,7 +60,12 @@ def forces(i):
     lift_x,lift_y,lift_z = [Rho_Vel_Area* cl * value for value in lift_vec[i-1]]
     
     drag_x,drag_y,drag_z = [-Rho_Vel_Area * cd * value for value in\
-        unit_vector(velocity_vec[i-1])]    
+        unit_vector(velocity_vec[i-1])] 
+        
+#    w_lift_x,w_lift_y,w_lift_z = [Rho_Vel_Area_Lift* cl_w * value for value in lift_vec[i-1]]
+#    
+#    w_drag_x,w_drag_y,w_drag_z = [-Rho_Vel_Area_Lift * cd_w * value for value in\
+#        unit_vector(wind)] 
     
 #    angle = angle_between(velocity_vec[i-1],velocity_on_frisbee[i-1])
 #    LnD1 = [Rho_Vel_Area* cl *\
@@ -74,7 +88,8 @@ def forces(i):
     #    deltavz =  B_mag * omega * vx * math.cos(math.radians(phi)) #+ -rho * velocity * area * cd
         
     return grav_x, grav_y, grav_z , lift_x, lift_y, lift_z, drag_x, \
-    drag_y, drag_z, magnus_x, magnus_y, magnus_z
+        drag_y, drag_z, magnus_x, magnus_y, magnus_z,\
+#        w_lift_x, w_lift_y, w_lift_z, w_drag_x, w_drag_y, w_drag_z
 
 def moments(i,delta_omega_x,delta_omega_y,delta_omega_z):
     """ Function which calculates the new moments """
@@ -158,6 +173,14 @@ def update_vectors(i):
     
     lift_vec[i] = np.cross(velocity_vec[i],np.cross(frisbee_vec[i],velocity_vec[i]))
     lift_vec[i] = unit_vector(lift_vec[i])
+    
+#    wind_on_frisbee[i] = map(operator.mul, frisbee_vec[i], \
+#    [np.dot(wind,frisbee_vec[i]) / (np.linalg.norm(frisbee_vec[i]))**2]*3)
+#    wind_on_frisbee[i] = map(operator.sub, wind,wind_on_frisbee[i])
+#    
+#    lift_wind_vec[i] = np.cross(wind,np.cross(frisbee_vec[i],wind))
+#    lift_wind_vec[i] = unit_vector(lift_wind_vec[i])
+    return
 
 def plot_frisbee(i,Fancy=False,html_mpld3=False,html_bokeh=False,html_plotly=False,gif=False,ground=False):
     """ Plots the frisbee trajectory on its own figure plot """
@@ -170,13 +193,13 @@ def plot_frisbee(i,Fancy=False,html_mpld3=False,html_bokeh=False,html_plotly=Fal
     #Make velocity color map
     total_vel = [math.sqrt(mat_vx[jj]**2+mat_vy[jj]**2+mat_vz[jj]**2) for jj in range(0,i)]
     colormat = np.array(total_vel)
-    #colormat = colormat[::-1]
+    colormat = colormat[::-1]
     colormat /= max(colormat)
     
     
     for j in range(1,i,1):
         ax.plot(mat_z[j-1:j+1], mat_x[j-1:j+1], mat_y[j-1:j+1], \
-            label='Frisbee Flight', c=plotlib.cm.RdYlGn(colormat[j-1])) #RdYlGn or hot as another colormap
+            label='Frisbee Flight', c=plotlib.cm.hot(colormat[j-1])) #RdYlGn or hot as another colormap
     
     #ax.plot(mat_z[0:i], mat_x[0:i], mat_y[0:i], label='Frisbee Flight', c=(0.1,0,0))
     plt.ylabel("X distance (m)")
@@ -211,9 +234,9 @@ def plot_frisbee(i,Fancy=False,html_mpld3=False,html_bokeh=False,html_plotly=Fal
 
     if Fancy:
 #        ax.set_aspect('equal')#,adjustable='box')
-#        print max(mat_x[0]) # Why not??
         ax.set_ylim(0,max(mat_x)+0.5)
-        ax.set_xlim(-max(mat_x)/2,max(mat_x)/2)        
+#        if max(mat_x) > max(mat_z):
+        ax.set_xlim(-max(mat_x)/2,max(mat_x)/2)                      
         plt.subplots_adjust(left=0.01, bottom=0.08,top = .99, right = .99)
         axamp = plt.axes([0.7, 0.02, 0.25, 0.03])
         resetax = plt.axes([0.3, 0.01, 0.1, 0.04])
@@ -368,7 +391,7 @@ def plot_frisbee(i,Fancy=False,html_mpld3=False,html_bokeh=False,html_plotly=Fal
 #    if Fancy:
 #        set_axes_equal(ax)
     
-    plt.show(block=True) #doesn't allow it to be closed.
+    plt.show()#block=True) #doesn't allow it to be closed.
 #    plt.draw()
     return
     
@@ -392,6 +415,7 @@ def make_frisbee(ax,Fancy=False):
         draw_vectors(ax,Fancy = True)
     else:
         draw_vectors(ax)
+        
     
     transparency = 0.1
     #norm = plotlib.colors.Normalize()
