@@ -610,7 +610,7 @@ def add_words(ax_words):
     
     ax_words.add_patch(p)
 
-    print_this = "Time (s) = %05.3f \nAlpha (Degrees) = %05.2f \nPhi (Degrees) = %05.2f \
+    print_this = "Time (s) = %05.2f \nAlpha (Degrees) = %05.2f \nPhi (Degrees) = %05.2f \
         \nVelocity X (m/s) = %05.2f\nVelocity Y (m/s) = %05.2f\nVelocity Z (m/s) = %05.2f" \
         % (mat_t[time_slider],mat_a[time_slider],mat_p[time_slider]-90,\
             mat_vx[time_slider],mat_vy[time_slider],mat_vz[time_slider])
