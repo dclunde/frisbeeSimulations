@@ -154,11 +154,49 @@ def grab_from_file():
     print input_mat,phi,"<<PHI!"
     return
 
+def edit_initial_conditions():
+    global x,y,z,vx,vy,vz,omega_x,omega_y,omega_z,alpha,phi,alpha_0
+    ff = open('frisbee_input.txt','r')
+    input_line1 = ff.readline()
+    input_line = ff.readline()
+    ff.close()
+    input_line = input_line.strip('\n')        
+    input_line1 = input_line1.strip('\n')        
+    input_mat = [float(item) for item in input_line.split(',')]
+    labels = [item.strip(" ") for item in input_line1.split(',')]
+    if len(input_mat) != 11:
+        print 'Wrong input file'
+        return
+    
+    editing = True
+    while editing:    
+        for i in range(0,np.size(input_mat),1):
+            print i,"-",labels[i],"-",input_mat[i]
+        test = 0
+        test = input("Enter number on left to edit value\rEnter -2 to reset numbers\rEnter -1 to run Simulation :")
+        
+        if test in [0,1,2,3,4,5,6,7,8,9,10]:
+            string = "Enter new value for "+labels[test]+" : "
+            new_val = input(string)
+            input_mat[test] = int(new_val)
+            print new_val
+        elif test == -2:
+            input_mat = [0,1,0,14,3,0,0,10,0,8,0]
+        elif test == -1:
+            editing = False
+        else:
+            input_mat = [0,1,0,14,3,0,0,10,0,8,0]
+            print "Not valid nubmer, using a normal backhand"
+            editing = False
+        
+    x,y,z,vx,vy,vz,omega_x,omega_y,omega_z,alpha,phi = input_mat
+        
+    return
+
 def choose_throw_type():
     global x,y,z,vx,vy,vz,omega_x,omega_y,omega_z,alpha,phi,alpha_0
     test = 0
-#    test = input("0 - Forehand \r1 - Backhand \r2 - Bounce \r3 - Hammer Throw \r4 - High Drop \r5 - Backhand left \rChoose type :")
-    test = input("0 - Forehand \r1 - Backhand \r2 - Bounce \r3 - High Drop \r4 - Backhand left \rChoose type :")
+    test = input("0 - Forehand \r1 - Backhand \r2 - Bounce \r3 - High Drop \r4 - Backhand left \rChoose throw type by typing number on left :")
 
     if test == 0:
         # Forehand
