@@ -163,4 +163,4 @@ def Simulation(CHARLIE = False,overwrite = [],gif=False,clear_old=False):
         print "Finished everything  in",time.clock()-initial_time,"seconds"
     return
 
-Simulation()
+#Simulation()
