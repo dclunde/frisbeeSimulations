@@ -190,7 +190,18 @@ def edit_initial_conditions():
             editing = False
         
     x,y,z,vx,vy,vz,omega_x,omega_y,omega_z,alpha,phi = input_mat
-        
+    
+    fff = open('frisbee_input.txt','w')
+    for item in range(0,10,1):
+        print >> fff,labels[item],",",
+
+    print >> fff,labels[10],'\n',
+    
+    for item in range(0,10,1):
+        print >> fff,input_mat[item],",",
+
+    print >> fff,input_mat[10]
+    fff.close()  
     return
 
 def choose_throw_type():
