@@ -14,7 +14,7 @@ def Simulation(CHARLIE = False,overwrite = [],gif=False,clear_old=False):
     from frisbee_current_header import *
     from frisbee_current_def import *
     
-    PRINT = True                    #If true print outputs
+    PRINT = False                    #If true print outputs
 
 #    CHARLIE = False
     #@profile for timing things
@@ -151,9 +151,8 @@ def Simulation(CHARLIE = False,overwrite = [],gif=False,clear_old=False):
     if PRINT:
         print "Finished simulation in",time.clock()-initial_time,"seconds"                
 
-    plot_frisbee(i,gif=gif,Fancy=False)
+    plot_frisbee(i,gif=gif,Fancy=True,step=False,rotate=True)
 #    excel_sheet(i)
-#    analyze_plots(i)
 #    calculate_energy(i,plot=True,save_data=True)
     #analyze(i)
     
@@ -164,4 +163,4 @@ def Simulation(CHARLIE = False,overwrite = [],gif=False,clear_old=False):
         print "Finished everything  in",time.clock()-initial_time,"seconds"
     return
 
-#Simulation()
+Simulation()

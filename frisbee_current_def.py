@@ -184,7 +184,7 @@ def update_vectors(i):
 #    lift_wind_vec[i] = unit_vector(lift_wind_vec[i])
     return
 
-def plot_frisbee(i,Fancy=False,html_mpld3=False,html_bokeh=False,html_plotly=False,gif=False,ground=False):
+def plot_frisbee(i,Fancy=False,html_mpld3=False,html_bokeh=False,html_plotly=False,gif=False,ground=False,step=False,rotate=False):
     """ Plots the frisbee trajectory on its own figure plot """
 #    global delta_t,mat_x,mat_y,mat_z,mat_a,time_slider
 
@@ -257,6 +257,8 @@ def plot_frisbee(i,Fancy=False,html_mpld3=False,html_bokeh=False,html_plotly=Fal
     samp = Slider(axamp, 'Time (sec)', 0, i*delta_t, valinit=0)#), valfmt='%0.0i')
     button = Button(resetax, 'Play', hovercolor='0.75')
     button2 = Button(viewax, 'Reset', hovercolor='0.75')
+    if step:    
+        button.label.set_text("Step") 
  
     world_lims = ax.get_w_lims()
     
@@ -264,11 +266,12 @@ def plot_frisbee(i,Fancy=False,html_mpld3=False,html_bokeh=False,html_plotly=Fal
     #axarrow.quiver(1,1,1,1,1,1)#, length =6)
     #ax.view_init(elev=30, azim=0)
     
-    def update(val):
+    def update(time_slider_sec):
         """ Updates the plot according the the time_slider"""
         global time_slider
-        val=val/delta_t
-        time_slider = int(val)
+        time_slider = int(time_slider_sec/delta_t)
+        if rotate:
+            update_with_rotate(time_slider_sec)
         if Fancy:
             make_frisbee(ax,Fancy=True)        
         else:
@@ -279,15 +282,17 @@ def plot_frisbee(i,Fancy=False,html_mpld3=False,html_bokeh=False,html_plotly=Fal
         scatter_point[0].remove()
         scatter_point[0] = ax.scatter(mat_z[time_slider],mat_x[time_slider],mat_y[time_slider], 'go')
         fig.canvas.draw_idle()
-        if gif and val!=0:# and int(val*100/i)%10==0:
+        if gif and time_slider_sec!=0:# and int(val*100/i)%10==0:
             sys.stdout.write("\r" + "{0}% finished with gif".format(time_slider*100/i))
             sys.stdout.flush()
             #print 'I',
         return scatter_point[0]
     
-    def update_with_rotate(val):
+    def update_with_rotate(time_slider_sec):
         """" Updates the plot and rotates the camera view """
-        update(val*delta_t)
+        global time_slider
+#        update(val)
+#        update(val*delta_t)
 #        ax.elev = mat_y[time_slider] 
 #        ax.azim = angle_between(velocity_vec[time_slider],[0,0,1],degrees=True)-180
         if Fancy:
@@ -296,16 +301,27 @@ def plot_frisbee(i,Fancy=False,html_mpld3=False,html_bokeh=False,html_plotly=Fal
             ax.elev=10
         ax.azim += 0.5
         #ax.view_init(elev=10., azim=val)
-        samp.set_val(val*delta_t)
-        fig.canvas.draw_idle()
+#        samp.set_val(val*delta_t)
+#        fig.canvas.draw_idle()
         return scatter_point[0]
-
+        
     samp.on_changed(update) #when slider pressed call update
 
+    def step_into():
+        global time_slider
+        new_slider = time_slider + 2
+        samp.set_val(new_slider*delta_t)
+#        update(new_slider*delta_t)
+        return
 
     def play(event):
         """ Controls the play button"""
         global playing
+        if step:
+            print step
+            step_into()
+            return
+        
         if playing:
             playing = False
             button.label.set_text("Play") 
@@ -321,23 +337,22 @@ def plot_frisbee(i,Fancy=False,html_mpld3=False,html_bokeh=False,html_plotly=Fal
         global playing, time_slider
         for II in range (time_slider,i,2):     
             samp.set_val(II*delta_t)
-            update_with_rotate(II)
+            update(II*delta_t)
+#            update_with_rotate(II)
             plt.pause(delta_t/100000)
             if not playing:
                 return
         playing = False
         button.label.set_text("Play") 
         return
-     
+
     button.on_clicked(play)
- 
-  
+
     def reset(event):
         global time_slider
         time_slider = 0
-        ax.view_init(elev=30, azim = -60)
-        update(0)
         samp.set_val(0)
+        ax.view_init(elev=30, azim = -60)
         
         ax.set_xlim(world_lims[0],world_lims[1])
         ax.set_ylim(world_lims[2],world_lims[3])
@@ -393,7 +408,7 @@ def plot_frisbee(i,Fancy=False,html_mpld3=False,html_bokeh=False,html_plotly=Fal
 #    if Fancy:
 #        set_axes_equal(ax)
     
-    plt.show(block=True) #doesn't allow it to be closed.
+    plt.show()#block=True) #doesn't allow it to be closed.
 #    plt.draw()
     return
     
