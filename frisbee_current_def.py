@@ -305,21 +305,18 @@ def plot_frisbee(i,Fancy=False,html_mpld3=False,html_bokeh=False,html_plotly=Fal
 #        fig.canvas.draw_idle()
         return scatter_point[0]
         
+#    def update_with_follow(time_slider_sec):
+#        .....
+    
+        
     samp.on_changed(update) #when slider pressed call update
-
-    def step_into():
-        global time_slider
-        new_slider = time_slider + 2
-        samp.set_val(new_slider*delta_t)
-#        update(new_slider*delta_t)
-        return
 
     def play(event):
         """ Controls the play button"""
-        global playing
+        global playing, time_slider
         if step:
-            print step
-            step_into()
+            new_slider = time_slider + 2
+            samp.set_val(new_slider*delta_t)
             return
         
         if playing:
@@ -335,11 +332,11 @@ def plot_frisbee(i,Fancy=False,html_mpld3=False,html_bokeh=False,html_plotly=Fal
     def play_through():
         """ Controls the automatic animation"""
         global playing, time_slider
-        for II in range (time_slider,i,2):     
+        for II in range (time_slider,i,3):     
             samp.set_val(II*delta_t)
             update(II*delta_t)
-#            update_with_rotate(II)
-            plt.pause(delta_t/100000)
+#            plt.pause(delta_t/100000)
+            plt.pause(0.00000001)
             if not playing:
                 return
         playing = False
@@ -408,7 +405,7 @@ def plot_frisbee(i,Fancy=False,html_mpld3=False,html_bokeh=False,html_plotly=Fal
 #    if Fancy:
 #        set_axes_equal(ax)
     
-    plt.show()#block=True) #doesn't allow it to be closed.
+    plt.show(block=True) #doesn't allow it to be closed.
 #    plt.draw()
     return
     
