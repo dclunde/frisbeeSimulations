@@ -174,7 +174,10 @@ def edit_initial_conditions():
         for i in range(0,np.size(input_mat),1):
             print i,"-",labels[i],"-",input_mat[i]
         test = 0
-        test = input("Enter number on left to edit value\rEnter -2 to reset numbers\rEnter -1 to run Simulation :")
+        try:
+            test = input("Enter number on left to edit value\rEnter -2 to reset numbers\rEnter -1 to run Simulation :")
+        except:
+            test = -1
         
         if test in [0,1,2,3,4,5,6,7,8,9,10]:
             string = "Enter new value for "+labels[test]+" : "
