@@ -71,6 +71,7 @@ omega_z   = 0        # Initial speed of rotation in z direction (rot/s)
 #Vector
 arrows = [0]*4
 frisbee_parts =  [0]*3
+cones  =[0]*25
 
 delta_t = 0.01  # Change in time
 

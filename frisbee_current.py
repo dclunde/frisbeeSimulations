@@ -5,7 +5,7 @@ Created on Thu Sep 29 14:44:42 2016
 @author: dlunde
 """
     
-def Simulation(CHARLIE = False,overwrite = [],gif=False,clear_old=False):
+def Simulation(CHARLIE = False,overwrite = [],clear_old=False,**kwargs):
 #     global x,y,z,vx,vy,vz,deltavx,deltavy,deltavz,delta_t,mass,\
 #        delta_omega_x,delta_omega_y,delta_omega_z,Ixx,Iyy,Izz,omega_x,omega_y,omega_z,\
 #        alpha,phi,mat_x,mat_y,mat_z,mat_vz,mat_vy,mat_vz,mat_a,mat_p,mat_t,mat_wx,mat_wy,mat_wz
@@ -20,7 +20,7 @@ def Simulation(CHARLIE = False,overwrite = [],gif=False,clear_old=False):
     #@profile for timing things
 #    from frisbee_current_header import grab_from_file,initialize_variables
 #    choose_throw_type()
-#    edit_initial_conditions()
+    edit_initial_conditions()
     #which_planet()
     initial_time = time.clock()
     if PRINT:
@@ -151,7 +151,8 @@ def Simulation(CHARLIE = False,overwrite = [],gif=False,clear_old=False):
     if PRINT:
         print "Finished simulation in",time.clock()-initial_time,"seconds"                
 
-    plot_frisbee(i,gif=gif,Fancy=True,step=False,rotate=True)
+    
+    plot_frisbee(i,**kwargs)
 #    excel_sheet(i)
 #    calculate_energy(i,plot=True,save_data=True)
     #analyze(i)
@@ -163,4 +164,4 @@ def Simulation(CHARLIE = False,overwrite = [],gif=False,clear_old=False):
         print "Finished everything  in",time.clock()-initial_time,"seconds"
     return
 
-#Simulation()
+#Simulation(step=True,Fancy=True,rotate=True)

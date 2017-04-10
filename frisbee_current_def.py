@@ -184,7 +184,8 @@ def update_vectors(i):
 #    lift_wind_vec[i] = unit_vector(lift_wind_vec[i])
     return
 
-def plot_frisbee(i,Fancy=False,html_mpld3=False,html_bokeh=False,html_plotly=False,gif=False,ground=False,step=False,rotate=False):
+def plot_frisbee(i,Fancy=False,html_mpld3=False,html_bokeh=False,html_plotly=False,\
+    gif=False,ground=False,step=False,rotate=False,follow=False,Field=False):
     """ Plots the frisbee trajectory on its own figure plot """
 #    global delta_t,mat_x,mat_y,mat_z,mat_a,time_slider
 
@@ -222,6 +223,9 @@ def plot_frisbee(i,Fancy=False,html_mpld3=False,html_bokeh=False,html_plotly=Fal
         arv_w = Arrow3D([0,wind[2]*wind_max],[0,wind[0]*wind_max],[0,wind[1]*wind_max], mutation_scale=20, lw=1, arrowstyle="-|>", color="green")
         ax.add_artist(arv_w) 
     
+    if Field:
+        Fancy=True
+        
     ax.w_zaxis.set_pane_color((0,1,0,0.5)) #Color the ground
     ax.w_yaxis.set_pane_color((0,0,0,0))
     ax.w_xaxis.set_pane_color((0,0,0,0))
@@ -233,15 +237,17 @@ def plot_frisbee(i,Fancy=False,html_mpld3=False,html_bokeh=False,html_plotly=Fal
     scatter_point = [ax.scatter(mat_z[0],mat_x[0],mat_y[0], 'go')]
 
     #Other plots    
-
+    
     if Fancy:
 #        ax.set_aspect('equal')#,adjustable='box')
         ax.set_ylim(0,max(mat_x)+0.5)
 #        if max(mat_x) > max(mat_z):
-        ax.set_xlim(-max(mat_x)/2,max(mat_x)/2)                      
+        ax.set_xlim(-max(mat_x)/2,max(mat_x)/2)  
+        if Field:
+            make_field(ax)                    
         plt.subplots_adjust(left=0.01, bottom=0.08,top = .99, right = .99)
         axamp = plt.axes([0.7, 0.02, 0.25, 0.03])
-        resetax = plt.axes([0.3, 0.01, 0.1, 0.04])
+        resetax = plt.axes([0.28, 0.01, 0.1, 0.04])
         viewax = plt.axes([0.4, 0.01, 0.1, 0.04])
         make_frisbee(ax,Fancy=True)
     else:
@@ -272,6 +278,8 @@ def plot_frisbee(i,Fancy=False,html_mpld3=False,html_bokeh=False,html_plotly=Fal
         time_slider = int(time_slider_sec/delta_t)
         if rotate:
             update_with_rotate(time_slider_sec)
+        elif follow:
+            update_with_follow(time_slider_sec)
         if Fancy:
             make_frisbee(ax,Fancy=True)        
         else:
@@ -305,9 +313,13 @@ def plot_frisbee(i,Fancy=False,html_mpld3=False,html_bokeh=False,html_plotly=Fal
 #        fig.canvas.draw_idle()
         return scatter_point[0]
         
-#    def update_with_follow(time_slider_sec):
-#        .....
-    
+    def update_with_follow(time_slider_sec):
+        global time_slider
+        if Fancy:
+            ax.set_xlim(mat_z[time_slider]-2,mat_z[time_slider]+2)
+            ax.set_ylim(mat_x[time_slider]-2,mat_x[time_slider]+2)
+        ax.elev=mat_y[time_slider]
+        ax.azim = -90
         
     samp.on_changed(update) #when slider pressed call update
 
@@ -374,7 +386,7 @@ def plot_frisbee(i,Fancy=False,html_mpld3=False,html_bokeh=False,html_plotly=Fal
     def save_gif(fig):
         """ Saves a gif of the animation """
         global time_slider
-        anim = FuncAnimation(fig, update_with_rotate, frames=range(0, i, 3),\
+        anim = FuncAnimation(fig,  samp.set_val, frames=np.arange(0, i*delta_t, 3*delta_t),\
             interval=140)#,blit=True)#,fargs(rotate=True))
         if True:
             if True: #make True for gif
@@ -464,10 +476,10 @@ def make_frisbee(ax,Fancy=False):
     
     #find magnitude of vector
     mag = norm(v)
-    
+
     #unit vector in direction of axis
     v = v / mag
-        
+
     #make some vector not in the same direction as v
     not_v = np.array([1, 0, 0])
     if (v == not_v).all():
@@ -516,6 +528,63 @@ def make_frisbee(ax,Fancy=False):
     plt.show()
     return
     
+def make_field(ax):
+    
+    width   = 48.9204
+    length  = 73.152
+    end_zone= 18.288
+    
+    for item in cones:     
+         try:
+            item.remove()
+         except:
+             pass
+    
+#    ax.set_xlim(-width/2,width/2)
+    ax.set_xlim(-2*width/3,2*width/3)
+    ax.set_ylim(-end_zone,length+end_zone)
+    ax.set_zlim(0,6)
+    
+    #behind end zone
+    cones[0] = [ax.scatter(-width/2,0,0, color='orange')]
+    cones[1] = [ax.scatter(width/2,0,0, color='orange')]
+    cones[2] = [ax.scatter(-width/2,-end_zone,0, color='orange')]
+    cones[3] = [ax.scatter(width/2,-end_zone,0, color='orange')]
+    cones[4] = [ax.scatter(0,-end_zone,0, color='orange')]
+    
+    #far end zone
+    cones[5] = [ax.scatter(-width/2,length,0, color='orange')]
+    cones[6] = [ax.scatter(width/2,length,0, color='orange')]
+    cones[7] = [ax.scatter(-width/2,length+end_zone,0, color='orange')]
+    cones[8] = [ax.scatter(width/2,length+end_zone,0, color='orange')]
+    cones[9] = [ax.scatter(0,length+end_zone,0, color='orange')]
+    
+    #side lines
+#    cones[10] = [ax.scatter(-width/2,length/2,0, color='orange')]
+#    cones[11] = [ax.scatter(width/2,length/2,0, color='orange')]
+    cones[12] = [ax.scatter(-width/2,length/3,0, color='orange')]
+    cones[13] = [ax.scatter(width/2,length/3,0, color='orange')]
+    cones[14] = [ax.scatter(-width/2,3*length/4,0, color='orange')]
+    cones[15] = [ax.scatter(width/2,3*length/4,0, color='orange')]
+    
+    #end zone lines
+    width_line = np.arange(-width/2,width/2,0.5)
+    lineColor = 'white'
+    line_width = 1.5
+    cones[16] = [ax.plot(width_line,[0]*np.size(width_line),0,color=lineColor,linewidth=line_width)]
+    cones[17] = [ax.plot(width_line,[length]*np.size(width_line),0,color=lineColor,linewidth=line_width)]
+    
+    side_line = np.arange(-end_zone,length+end_zone,0.5)
+    cones[18] = [ax.plot([-width/2]*np.size(side_line),side_line,0,color=lineColor,linewidth=line_width)]
+    cones[19] = [ax.plot([width/2]*np.size(side_line),side_line,0,color=lineColor,linewidth=line_width)]
+    
+    cones[20] = [ax.plot(width_line,[-end_zone]*np.size(width_line),0,color=lineColor,linewidth=line_width)]
+    cones[22] = [ax.plot(width_line,[length+end_zone]*np.size(width_line),0,color=lineColor,linewidth=line_width)]
+    return
+
+    
+        
+
 def plotly_frisbee(i):
     """ Creates a plotly html plot of the 3D plot """
     import matplotlib.mlab as mlab
