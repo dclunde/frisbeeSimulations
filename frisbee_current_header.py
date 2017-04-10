@@ -152,7 +152,7 @@ def grab_from_file():
         return
 #    x_0,y_0,z_0,vx_0,vy_0,vz_0,omega_x,omega_y,omega_z,alpha,phi = input_mat
     x,y,z,vx,vy,vz,omega_x,omega_y,omega_z,alpha,phi = input_mat
-    print input_mat,phi,"<<PHI!"
+#    print input_mat,phi,"<<PHI!"
     return
 
 def edit_initial_conditions():
