@@ -56,7 +56,7 @@ def Simulation(CHARLIE = False,overwrite = [],clear_old=False,**kwargs):
     plt.close('Frisbee Energy')     #Close Old Plots
     CONTINUE = True                 #Boolean for simulation continuation
     
-    i=0                             #Time Step variable
+    i=0     #Time Step variable
     update_vectors(0)               #Initialize vectors
     #    cl,cd = lift_drag(i)             #Initialize lift and drag
         

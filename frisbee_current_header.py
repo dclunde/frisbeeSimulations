@@ -402,7 +402,8 @@ def initialize_variables(overwrite=[]):
     mat_wx[0] = omega_x * 2 * math.pi
     mat_wy[0] = omega_y * 2 * math.pi
     mat_wz[0] = omega_z * 2 * math.pi
-    
+
+    return
 
 #    print "before assignment",x_0,x
 #    x  = x_0

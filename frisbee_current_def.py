@@ -188,7 +188,9 @@ def plot_frisbee(i,Fancy=False,html_mpld3=False,html_bokeh=False,html_plotly=Fal
     gif=False,ground=False,step=False,rotate=False,follow=False,Field=False):
     """ Plots the frisbee trajectory on its own figure plot """
 #    global delta_t,mat_x,mat_y,mat_z,mat_a,time_slider
-
+    global time_slider
+    time_slider=0    
+    
     fig = plt.figure("Frisbee Simulation")#,figsize=(10,10))
     fig.canvas.set_window_title('Frisbee Simulation') 
     ax = fig.gca(projection='3d')
@@ -237,7 +239,7 @@ def plot_frisbee(i,Fancy=False,html_mpld3=False,html_bokeh=False,html_plotly=Fal
     scatter_point = [ax.scatter(mat_z[0],mat_x[0],mat_y[0], 'go')]
 
     #Other plots    
-    
+
     if Fancy:
 #        ax.set_aspect('equal')#,adjustable='box')
         ax.set_ylim(0,max(mat_x)+0.5)
@@ -271,7 +273,6 @@ def plot_frisbee(i,Fancy=False,html_mpld3=False,html_bokeh=False,html_plotly=Fal
     #axarrow = fig.add_subplot(234, axisbg=axcolor,projection = '3d')
     #axarrow.quiver(1,1,1,1,1,1)#, length =6)
     #ax.view_init(elev=30, azim=0)
-    
     def update(time_slider_sec):
         """ Updates the plot according the the time_slider"""
         global time_slider
@@ -424,7 +425,7 @@ def plot_frisbee(i,Fancy=False,html_mpld3=False,html_bokeh=False,html_plotly=Fal
 def make_frisbee(ax,Fancy=False):
     """ Creates a frisbee on an axis """
     global time_slider,frisbee_vec
-    
+
     #Remove the old frisbee
     for item in frisbee_parts:     
          try:
@@ -1081,6 +1082,7 @@ def set_axes_equal(ax):
     ax.set_xlim3d([x_middle - plot_radius, x_middle + plot_radius])
     ax.set_ylim3d([y_middle - plot_radius, y_middle + plot_radius])
     ax.set_zlim3d([z_middle - plot_radius, z_middle + plot_radius])
+    return
 
 def clear_mats(i):
     mat_x[i:int(total_t/delta_t)]=[0.0]*(int(total_t/delta_t)-i)
@@ -1094,3 +1096,4 @@ def clear_mats(i):
     mat_wz[i:int(total_t/delta_t)]=[0.0]*(int(total_t/delta_t)-i)
     mat_a[i:int(total_t/delta_t)]=[0.0]*(int(total_t/delta_t)-i)
     mat_p[i:int(total_t/delta_t)]=[0.0]*(int(total_t/delta_t)-i)
+    return
