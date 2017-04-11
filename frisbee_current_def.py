@@ -456,8 +456,10 @@ def make_frisbee(ax,Fancy=False):
     else:
         draw_vectors(ax)
         
-    
-    transparency = 0.1
+    if Fancy:
+        transparency = 0.5
+    else:
+        transparency = 0.1
     #norm = plotlib.colors.Normalize()
     #surf = ax1.plot_surface(xig, yig, zi, facecolors=cm.rainbow(norm(ci)))
     scolor = 'blue'#'inferno' #blue
