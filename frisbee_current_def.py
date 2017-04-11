@@ -228,7 +228,9 @@ def plot_frisbee(i,Fancy=False,html_mpld3=False,html_bokeh=False,html_plotly=Fal
     if Field:
         Fancy=True
         
-    ax.w_zaxis.set_pane_color((0,1,0,0.5)) #Color the ground
+    if not follow:
+        ax.w_zaxis.set_pane_color((0,1,0,0.5)) #Color the ground
+    ax.w_zaxis.set_pane_color((0,0,0,0)) #Color the ground
     ax.w_yaxis.set_pane_color((0,0,0,0))
     ax.w_xaxis.set_pane_color((0,0,0,0))
     
@@ -317,10 +319,16 @@ def plot_frisbee(i,Fancy=False,html_mpld3=False,html_bokeh=False,html_plotly=Fal
     def update_with_follow(time_slider_sec):
         global time_slider
         if Fancy:
-            ax.set_xlim(mat_z[time_slider]-2,mat_z[time_slider]+2)
-            ax.set_ylim(mat_x[time_slider]-2,mat_x[time_slider]+2)
-        ax.elev=mat_y[time_slider]
-        ax.azim = -90
+            ax.set_xlim(mat_z[time_slider]-1,mat_z[time_slider]+1)
+            ax.set_ylim(mat_x[time_slider]-1,mat_x[time_slider]+1)
+            ax.set_zlim(mat_y[time_slider]-1,mat_y[time_slider]+1)
+#        ax.elev=mat_y[time_slider]
+        ax.elev=1
+        follow_angle = angle_between((mat_vx[time_slider],0,mat_vz[time_slider]),(mat_vx[time_slider],0,0),degrees=True)
+        if mat_vz[time_slider]<0:
+            follow_angle = -follow_angle
+        ax.azim = -90-follow_angle
+        return
         
     samp.on_changed(update) #when slider pressed call update
 
@@ -389,21 +397,23 @@ def plot_frisbee(i,Fancy=False,html_mpld3=False,html_bokeh=False,html_plotly=Fal
         global time_slider
         anim = FuncAnimation(fig,  samp.set_val, frames=np.arange(0, i*delta_t, 3*delta_t),\
             interval=140)#,blit=True)#,fargs(rotate=True))
-        if True:
-            if True: #make True for gif
-                title =  'output/%s.gif' % (time.strftime("%H_%M_%S"))
-                anim.save(title, dpi=150, writer='imagemagick')
-            else:                
-                title =  'output/%s.mp4' % (time.strftime("%H_%M_%S"))
-                anim.save(title, dpi=150,fps=15, writer = "avconv", codec = "libx264")
-            print title
-            os.system("mv %s ../../Downloads/" % (title))            
-            reset(0)
-            print "Saved gif"
-            os.system("mpg123 audio.mp3 >> /dev/null")
-        else:
-            print "Now showing plot"
-            plt.show()
+#        if True:
+        if False: #make True for gif
+            title =  'output/%s.gif' % (time.strftime("%H_%M_%S"))
+            anim.save(title, dpi=150, writer='imagemagick')
+        else:                
+            title =  'output/%s.mp4' % (time.strftime("%H_%M_%S"))
+            anim.save(title, dpi=150,fps=15, writer = "avconv", codec = "libx264")
+        print title
+        os.system("mv %s ../../Downloads/" % (title))            
+        reset(0)
+        print "Saved gif"
+        os.system("mpg123 audio.mp3 >> /dev/null")
+        plt.close("Frisbee Simulation")
+        return
+#        else:
+#            print "Now showing plot"
+#            plt.show()
             
 
     if gif:
@@ -496,7 +506,10 @@ def make_frisbee(ax,Fancy=False):
     
     #surface ranges over t from 0 to length of axis and 0 to 2*pi
     t = np.linspace(0, mag, 2)
-    theta = np.linspace(0, 2 * np.pi, 100)
+    if mat_wy[time_slider] > 0:
+        theta = np.linspace(0-time_slider, 2 * np.pi -time_slider, 100)
+    else:
+        theta = np.linspace(0+time_slider, 2 * np.pi +time_slider, 100)
     rsample = np.linspace(0, R, 2)
 
     #use meshgrid to make 2d arrays

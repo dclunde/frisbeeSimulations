@@ -20,7 +20,7 @@ def Simulation(CHARLIE = False,overwrite = [],clear_old=False,**kwargs):
     #@profile for timing things
 #    from frisbee_current_header import grab_from_file,initialize_variables
 #    choose_throw_type()
-    edit_initial_conditions()
+#    edit_initial_conditions()
     #which_planet()
     initial_time = time.clock()
     if PRINT:

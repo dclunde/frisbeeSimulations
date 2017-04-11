@@ -45,7 +45,7 @@ else:
 # Flight Variables
 alpha    = 8        # Angle of attack
 alpha_0  = -4       # Initial Angle of Attack according to frisbee
-phi      = 0        # Z rotation Angle
+phi      = 10        # Z rotation Angle
 wind     = [0,0,0]  # 3D vector of wind
 
 # Initial Variables
@@ -54,7 +54,7 @@ y     = 1.0   # Y initial position
 z     = 0.0   # Z initial position
 vx    = 14    # velocity * math.cos(math.radians(alpha-alpha_0))   # Initial velocity in X position
 vy    = 3     # velocity * math.sin(math.radians(alpha-alpha_0))   # Initial velocity in Y position
-vz    = 0     # Initial Z velocity
+vz    = 1     # Initial Z velocity
 
 #x_0     = 0.0   # X initial position
 #y_0     = 1.0   # Y initial position
