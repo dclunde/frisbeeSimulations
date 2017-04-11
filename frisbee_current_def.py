@@ -453,13 +453,13 @@ def make_frisbee(ax,Fancy=False):
     if Fancy:
 #        pass
         draw_vectors(ax,Fancy = True)
+        transparency = 0.2
+        linewidth = 1
     else:
         draw_vectors(ax)
-        
-    if Fancy:
-        transparency = 0.5
-    else:
         transparency = 0.1
+        linewidth = 0.5
+
     #norm = plotlib.colors.Normalize()
     #surf = ax1.plot_surface(xig, yig, zi, facecolors=cm.rainbow(norm(ci)))
     scolor = 'blue'#'inferno' #blue
@@ -534,7 +534,7 @@ def make_frisbee(ax,Fancy=False):
 #
 #    ax=plt.subplot(111, projection='3d')
     #ax.cla()   
-    frisbee_parts[0] = ax.plot_surface(X, Y, Z, color=scolor,alpha=transparency,linewidth = 0.5)#,facecolors=cm.rainbow(norm(ci)))
+    frisbee_parts[0] = ax.plot_surface(X, Y, Z, color=scolor,alpha=transparency,linewidth = linewidth)#,facecolors=cm.rainbow(norm(ci)))
     frisbee_parts[1] = ax.plot_surface(X2, Y2, Z2, color=scolor,alpha=transparency,linewidth = 0)
     frisbee_parts[2] = ax.plot_surface(X3, Y3, Z3, color=scolor,alpha=transparency,linewidth = 0)
     
