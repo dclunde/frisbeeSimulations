@@ -170,12 +170,12 @@ def edit_initial_conditions():
         return
     
     editing = True
-    while editing:    
+    while editing:  
         for i in range(0,np.size(input_mat),1):
             print i,"-",labels[i],"-",input_mat[i]
         test = 0
         try:
-            test = input("Enter number on left to edit value\rEnter -2 to reset numbers\rEnter -1 to run Simulation :")
+            test = input("Enter an index number on left to edit a value\rEnter -2 to reset values\rEnter -1 to run Simulation :")
         except:
             test = -1
         

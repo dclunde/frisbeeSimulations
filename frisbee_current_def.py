@@ -230,7 +230,8 @@ def plot_frisbee(i,Fancy=False,html_mpld3=False,html_bokeh=False,html_plotly=Fal
         
     if not follow:
         ax.w_zaxis.set_pane_color((0,1,0,0.5)) #Color the ground
-    ax.w_zaxis.set_pane_color((0,0,0,0)) #Color the ground
+    else:
+        ax.w_zaxis.set_pane_color((0,0,0,0))
     ax.w_yaxis.set_pane_color((0,0,0,0))
     ax.w_xaxis.set_pane_color((0,0,0,0))
     
@@ -250,9 +251,11 @@ def plot_frisbee(i,Fancy=False,html_mpld3=False,html_bokeh=False,html_plotly=Fal
         if Field:
             make_field(ax)                    
         plt.subplots_adjust(left=0.01, bottom=0.08,top = .99, right = .99)
-        axamp = plt.axes([0.7, 0.02, 0.25, 0.03])
-        resetax = plt.axes([0.28, 0.01, 0.1, 0.04])
-        viewax = plt.axes([0.4, 0.01, 0.1, 0.04])
+        axamp = plt.axes([0.7, 0.025, 0.25, 0.03])
+        resetax = plt.axes([0.38, 0.02, 0.1, 0.04])
+        viewax = plt.axes([0.483, 0.02, 0.1, 0.04])
+        ax_words = plt.axes([0, 0.02, 0.01, 0.04])
+        add_words(ax_words,Fancy=True)
         make_frisbee(ax,Fancy=True)
     else:
         plt.subplots_adjust(left=0.01, bottom=0.35,top = .99, right = .99)
@@ -398,7 +401,7 @@ def plot_frisbee(i,Fancy=False,html_mpld3=False,html_bokeh=False,html_plotly=Fal
         anim = FuncAnimation(fig,  samp.set_val, frames=np.arange(0, i*delta_t, 3*delta_t),\
             interval=140)#,blit=True)#,fargs(rotate=True))
 #        if True:
-        if False: #make True for gif
+        if True: #make True for gif
             title =  'output/%s.gif' % (time.strftime("%H_%M_%S"))
             anim.save(title, dpi=150, writer='imagemagick')
         else:                
@@ -686,7 +689,7 @@ def make_ground(ax):
         linewidth = 0,alpha = 0.75, color = 'lightgreen',antialiased = False)
     return
 
-def add_words(ax_words):
+def add_words(ax_words,Fancy=False):
     """ Adds words to a axis changing as the interactive moves along """
     global mat_a,mat_vx,time_slider
     
@@ -698,24 +701,34 @@ def add_words(ax_words):
     
     
     # axes coordinates are 0,0 is bottom left and 1,1 is upper right
-    p = patches.Rectangle(
-        (left, bottom), width, height,
-        fill=False, transform=ax_words.transAxes, clip_on=False
-        )
-    
-    ax_words.add_patch(p)
+    if not Fancy:    
+        p = patches.Rectangle(
+            (left, bottom), width, height,
+            fill=False, transform=ax_words.transAxes, clip_on=False
+            )
+        ax_words.add_patch(p)
 
-    print_this = "Time (s) = %05.2f \nAlpha (Degrees) = %05.2f \nPhi (Degrees) = %05.2f \
-        \nVelocity X (m/s) = %05.2f\nVelocity Y (m/s) = %05.2f\nVelocity Z (m/s) = %05.2f" \
-        % (mat_t[time_slider],mat_a[time_slider],mat_p[time_slider]-90,\
-            mat_vx[time_slider],mat_vy[time_slider],mat_vz[time_slider])
+    if Fancy:
+        print_this = "Try these buttons! Or click along the slider"
+    else:
+        print_this = "Time (s) = %05.2f \nAlpha (Degrees) = %05.2f \nPhi (Degrees) = %05.2f \
+            \nVelocity X (m/s) = %05.2f\nVelocity Y (m/s) = %05.2f\nVelocity Z (m/s) = %05.2f" \
+            % (mat_t[time_slider],mat_a[time_slider],mat_p[time_slider]-90,\
+                mat_vx[time_slider],mat_vy[time_slider],mat_vz[time_slider])
     
     #ax_words.text(left+0.1*left, 0.5*(bottom+top), print_this,
 #        horizontalalignment='left',
+    if Fancy:
+        horizontalalignment = 'left'
+        fontsize = 10
+    else:
+        horizontalalignment = 'right'
+        fontsize = 10
+    
     ax_words.text(left+0.9*width, 0.5*(bottom+top), print_this,
-        horizontalalignment='right',
+        horizontalalignment=horizontalalignment,
         verticalalignment='center',
-        fontsize=10, color='black',
+        fontsize=fontsize, color='black',
         transform=ax_words.transAxes)
         
     ax_words.set_axis_off()
