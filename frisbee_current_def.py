@@ -565,8 +565,8 @@ def make_frisbee(ax,Fancy=False,new_input = 0,new_frisbee_vec=0):
     v2 = p2 - p0
      
     #find magnitude of vector
-    mag = norm(v)
-    mag2 = norm(v2)
+    mag = np.linalg.norm(v)
+    mag2 = np.linalg.norm(v2)
  
     #unit vector in direction of axis
     v = v / mag
@@ -584,8 +584,8 @@ def make_frisbee(ax,Fancy=False,new_input = 0,new_frisbee_vec=0):
     n1 = np.cross(v, not_v)
     n12 = np.cross(v2, not_v2)
     #normalize n1
-    n1 /= norm(n1)
-    n12 /= norm(n12)
+    n1 /= np.linalg.norm(n1)
+    n12 /= np.linalg.norm(n12)
      
     #make unit vector perpendicular to v and n1
     n2 = np.cross(v, n1)
