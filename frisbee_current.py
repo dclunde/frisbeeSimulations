@@ -31,7 +31,7 @@ def Simulation(overwrite = [],**kwargs):
         
     initial_time = time.clock()
     if PRINT:
-        print("Beginning Frisbee Simulation")    
+        print "Beginning Frisbee Simulation"    
 
 
     if not overwrite==[]:
@@ -127,7 +127,7 @@ def Simulation(overwrite = [],**kwargs):
     
         if PRINT:
             if i*delta_t*100%10 == 0:
-                print(i*delta_t,"sec\r", end=' ')
+                print i*delta_t,"sec\r",
         
         #Bounce
     #    if y < diameter and 0<angle_between(frisbee_vec[i],[0,1,0],degrees=True)<10:
@@ -140,21 +140,21 @@ def Simulation(overwrite = [],**kwargs):
         
         #Unrealisitic stop
         if absmax([vx,vy,vz]) > 100:
-            print("Frisbee unrealisitic %f,%f,%f, ending simulation" % (vx,vy,vz))
+            print "Frisbee unrealisitic %f,%f,%f, ending simulation" % (vx,vy,vz)
             CONTINUE = False
         
         #Hit Ground
         if y <= 0.0:
-            print("Frisbee hit the ground, ending simulation")
+            print "Frisbee hit the ground, ending simulation"
             CONTINUE = False
             
         #Run out of time
         if i >= total_t/delta_t-1:
-            print("Ran out of time, ending simulation")
+            print "Ran out of time, ending simulation"
             CONTINUE = False
     
     if PRINT:
-        print("Finished simulation in",time.clock()-initial_time,"seconds")                
+        print "Finished simulation in",time.clock()-initial_time,"seconds"                
 
     if 'plot_frisbee' in kwargs:
         plot_frisbee(i,**kwargs)
@@ -171,7 +171,7 @@ def Simulation(overwrite = [],**kwargs):
             clear_mats(i)
     
     if PRINT:
-        print("Finished everything  in",time.clock()-initial_time,"seconds")
+        print "Finished everything  in",time.clock()-initial_time,"seconds"
     return
 
 #Simulation(edit_initial_conditions=1,plot_frisbee=1,rotate=True)
