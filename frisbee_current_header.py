@@ -11,7 +11,7 @@ import numpy as np
 import pylab
 from mpl_toolkits.mplot3d import Axes3D
 from matplotlib.widgets import Slider, Button,RadioButtons
-#from scipy.linalg import norm
+from scipy.linalg import norm
 from matplotlib.patches import FancyArrowPatch
 from mpl_toolkits.mplot3d import proj3d
 import matplotlib as plotlib
@@ -62,7 +62,7 @@ arrows = [0]*6
 frisbee_parts =  [0]*3
 cones  =[0]*25
 
-delta_t = 0.01  # Change in time
+delta_t = 0.001  # Change in time
 
 # Frisbee Variables
 mass = 0.175                      # Mass of Frisbee in kg in the AUDL

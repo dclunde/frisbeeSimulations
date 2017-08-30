@@ -106,7 +106,7 @@ def Simulation(overwrite = [],**kwargs):
         # Update angular velocity 
         omega_x = omega_x + delta_omega_x
         omega_y = omega_y + delta_omega_y
-        #omega_z = omega_z + delta_omega_z
+        omega_z = omega_z + delta_omega_z
     
         #update alpha and phi
         alpha = alpha + omega_z * delta_t
@@ -174,4 +174,4 @@ def Simulation(overwrite = [],**kwargs):
         print "Finished everything  in",time.clock()-initial_time,"seconds"
     return
 
-#Simulation(edit_initial_conditions=1,plot_frisbee=1,rotate=True)
+Simulation(plot_frisbee=1,gif=True,rotate=True)
