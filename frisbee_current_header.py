@@ -11,7 +11,7 @@ import numpy as np
 import pylab
 from mpl_toolkits.mplot3d import Axes3D
 from matplotlib.widgets import Slider, Button,RadioButtons
-from scipy.linalg import norm
+#from scipy.linalg import norm
 from matplotlib.patches import FancyArrowPatch
 from mpl_toolkits.mplot3d import proj3d
 import matplotlib as plotlib
