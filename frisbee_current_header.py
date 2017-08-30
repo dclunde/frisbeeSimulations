@@ -30,7 +30,7 @@ if (sys.version_info > (3, 0)):
      from bokeh import mpl
      from bokeh.plotting import save
      #import bokeh     
-     print "Bokeh uploaded"
+     print("Bokeh uploaded")
 
 else:
      # Python 2 code in this block
@@ -154,7 +154,7 @@ def grab_from_file():
     input_line = input_line.strip('\n')
     input_mat = [float(fff) for fff in input_line.split(',')]
     if len(input_mat) != 14:
-        print 'Wrong input file'
+        print('Wrong input file')
         return
 #    x_0,y_0,z_0,vx_0,vy_0,vz_0,omega_x,omega_y,omega_z,alpha,phi = input_mat
     x,y,z,vx,vy,vz,omega_x,omega_y,omega_z,alpha,phi,wind[0],wind[1],wind[2] = input_mat
@@ -173,52 +173,52 @@ def edit_initial_conditions():
     input_mat = [float(item) for item in input_line.split(',')]
     labels = [item.strip(" ") for item in input_line1.split(',')]
     if len(input_mat) != len(reset_mat):
-        print 'Wrong input file'
+        print('Wrong input file')
         return
     
     editing = True
     while editing:  
         for i in range(0,np.size(input_mat),1):
-            print i,"-",labels[i],"-",input_mat[i]
+            print(i,"-",labels[i],"-",input_mat[i])
         test = 0
         try:
-            test = input("Enter an index number on left to edit a value\rEnter -2 to reset values\rEnter -1 to run Simulation :")
+            test = eval(input("Enter an index number on left to edit a value\rEnter -2 to reset values\rEnter -1 to run Simulation :"))
         except:
             test = -1
         
         if test in range(0,len(reset_mat),1):
             string = "Enter new value for "+labels[test]+" : "
-            new_val = input(string)
+            new_val = eval(input(string))
             input_mat[test] = int(new_val)
-            print new_val
+            print(new_val)
         elif test == -2:
             input_mat = reset_mat
         elif test == -1:
             editing = False
         else:
             input_mat = reset_mat
-            print "Not valid nubmer, using a normal backhand"
+            print("Not valid nubmer, using a normal backhand")
             editing = False
         
     x,y,z,vx,vy,vz,omega_x,omega_y,omega_z,alpha,phi,wind[0],wind[1],wind[2] = input_mat
     
     fff = open('frisbee_input.txt','w')
     for item in range(0,len(reset_mat)-1,1):
-        print >> fff,labels[item],",",
+        print(labels[item],",", end=' ', file=fff)
 
-    print >> fff,labels[len(reset_mat)-1],'\n',
+    print(labels[len(reset_mat)-1],'\n', end=' ', file=fff)
     
     for item in range(0,len(reset_mat)-1,1):
-        print >> fff,input_mat[item],",",
+        print(input_mat[item],",", end=' ', file=fff)
 
-    print >> fff,input_mat[len(reset_mat)-1]
+    print(input_mat[len(reset_mat)-1], file=fff)
     fff.close()  
     return
 
 def choose_throw_type():
     global x,y,z,vx,vy,vz,omega_x,omega_y,omega_z,alpha,phi,alpha_0
     test = 0
-    test = input("0 - Forehand \r1 - Backhand \r2 - Bounce \r3 - High Drop \r4 - Backhand left \rChoose throw type by typing number on left :")
+    test = eval(input("0 - Forehand \r1 - Backhand \r2 - Bounce \r3 - High Drop \r4 - Backhand left \rChoose throw type by typing number on left :"))
 
     if test == 0:
         # Forehand
@@ -312,7 +312,7 @@ def choose_throw_type():
         omega_y   = 10      # Initial speed of rotation in y direction (rot/s)
         omega_z   = 0        # Initial speed of rotation in z direction (rot/s)
     else:
-        print "Not a possible throw, using forehand"
+        print("Not a possible throw, using forehand")
         # Forehand
         alpha    = 8        # Angle of attack
         alpha_0  = -4       # Initial Angle of Attack according to frisbee
@@ -335,7 +335,7 @@ def choose_throw_type():
 def which_planet():
     global rho,g
     test = 0
-    test = input("0 - Earth \r1 - Moon \r2 - Mars\r Choose planet :\n")
+    test = eval(input("0 - Earth \r1 - Moon \r2 - Mars\r Choose planet :\n"))
 
     if test == 0:
         # Earth
@@ -350,16 +350,16 @@ def which_planet():
         rho  = 1.225 * 0.006
         g    = -3.711
     else:
-        print "Not a possible planet, using Earth"
+        print("Not a possible planet, using Earth")
         test = 0
     return
     
 def change_temperature():
     global rho
     test = 0
-    test = input("0 - Celsius \r1 - Fahrenheit:\n")
+    test = eval(input("0 - Celsius \r1 - Fahrenheit:\n"))
     temp = 0
-    temp = input("Enter temperature:\n")
+    temp = eval(input("Enter temperature:\n"))
     R = 287.058
     P = 101.325
     if test == 0 :

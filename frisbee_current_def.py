@@ -213,9 +213,9 @@ def update_vectors(i):
     if 90 < mat_p[i]-90 < 270 or -90 > mat_p[i]-90 > -270:
         frisbee_vec[i][1] = - frisbee_vec[i][1]   
      
-    velocity_on_frisbee[i] = map(operator.mul, frisbee_vec[i], \
-        [np.dot(velocity_vec[i],frisbee_vec[i]) / (np.linalg.norm(frisbee_vec[i]))**2]*3)
-    velocity_on_frisbee[i] = map(operator.sub, velocity_vec[i],velocity_on_frisbee[i])
+    velocity_on_frisbee[i] = list(map(operator.mul, frisbee_vec[i], \
+        [np.dot(velocity_vec[i],frisbee_vec[i]) / (np.linalg.norm(frisbee_vec[i]))**2]*3))
+    velocity_on_frisbee[i] = list(map(operator.sub, velocity_vec[i],velocity_on_frisbee[i]))
      
     lift_vec[i] = np.cross(velocity_vec[i],np.cross(frisbee_vec[i],velocity_vec[i]))
     lift_vec[i] = unit_vector(lift_vec[i])
@@ -223,9 +223,9 @@ def update_vectors(i):
     wind_current = get_current_wind(mat_y[i])
     velocity_and_wind[i] = [mat_vx[i]-wind_current[0],mat_vy[i]-wind_current[1],mat_vz[i]-wind_current[2]]
      
-    wind_on_frisbee[i] = map(operator.mul, frisbee_vec[i], \
-        [np.dot(velocity_and_wind[i],frisbee_vec[i]) / (np.linalg.norm(frisbee_vec[i]))**2]*3)
-    wind_on_frisbee[i] = map(operator.sub, velocity_and_wind[i],wind_on_frisbee[i])
+    wind_on_frisbee[i] = list(map(operator.mul, frisbee_vec[i], \
+        [np.dot(velocity_and_wind[i],frisbee_vec[i]) / (np.linalg.norm(frisbee_vec[i]))**2]*3))
+    wind_on_frisbee[i] = list(map(operator.sub, velocity_and_wind[i],wind_on_frisbee[i]))
      
     lift_wind_vec[i] = np.cross(velocity_and_wind[i],np.cross(frisbee_vec[i],velocity_and_wind[i]))
     lift_wind_vec[i] = unit_vector(lift_wind_vec[i])
@@ -462,10 +462,10 @@ def plot_frisbee(i,Fancy=False,html_mpld3=False,html_bokeh=False,html_plotly=Fal
         else:                
             title =  'output/%s.mp4' % (time.strftime("%H_%M_%S"))
             anim.save(title, dpi=150,fps=15, writer = "avconv", codec = "libx264")
-        print title
+        print(title)
         os.system("mv %s ../../Downloads/" % (title))            
         reset(0)
-        print "Saved gif"
+        print("Saved gif")
         os.system("mpg123 audio.mp3 >> /dev/null")
         plt.close("Frisbee Simulation")
         return
@@ -767,13 +767,13 @@ def mpld3_frisbee(i):
         ax.set_xlim(-1, 1)
  
     try:
-        print "saving html"
+        print("saving html")
         mpld3.save_html(fig,"online_fig.html")
-        print "Saved html"
+        print("Saved html")
     except:
-        print "Failed??"
+        print("Failed??")
     else:
-        print "YAY!"
+        print("YAY!")
     mpld3.save_html(fig,"online_fig.html")
     return
     
@@ -789,7 +789,7 @@ def make_ground(ax):
      
     Z_ground = (-normal_G[0] * X_ground - normal_G[1] * Y_ground - d) * 1. /normal_G[2]
  
-    print X_ground
+    print(X_ground)
     ax.plot_surface(X_ground,Y_ground,Z_ground,\
         linewidth = 0,alpha = 0.75, color = 'lightgreen',antialiased = False)
     return
@@ -882,7 +882,7 @@ def analyze_plots(i,html=False):
     ax3.plot(mat_t[0:i], mat_a[0:i], label='Alpha (Z)',color='r')
     ax3.set_ylabel("Alpha Degrees")
     ax3.set_xlabel("Time (s)")
-    ax3_1.plot(mat_t[0:i], map(operator.sub,mat_p[0:i],[90]*i), label='Phi (X)')
+    ax3_1.plot(mat_t[0:i], list(map(operator.sub,mat_p[0:i],[90]*i)), label='Phi (X)')
     ax3_1.set_ylabel("Phi Degrees")
     h3, l3 = ax3.get_legend_handles_labels()
     h4, l4 = ax3_1.get_legend_handles_labels()
@@ -994,19 +994,19 @@ def plot_energy(i,mat_TE):
 def forces_sheet(forces_output,i):
     """ Prints a Forces excel sheet of the formulas"""
     f = open('output/Forces_total.csv','a')
-    print >> f, i,",",\
+    print(i,",",\
         forces_output[0],",",forces_output[1],",",forces_output[2],",",\
         forces_output[3],",",forces_output[4],",",forces_output[5],",",\
         forces_output[6],",",forces_output[7],",",forces_output[8],",",\
-        forces_output[9],",",forces_output[10],",",forces_output[11]
+        forces_output[9],",",forces_output[10],",",forces_output[11], file=f)
     f.close()
     return
      
 def moments_sheet(moments_output,i):
     """ Prints a Forces excel sheet of the formulas"""
     f = open('output/Moments_total.csv','a')
-    print >> f, i,",",\
-        moments_output[0],",",moments_output[1],",",moments_output[2]
+    print(i,",",\
+        moments_output[0],",",moments_output[1],",",moments_output[2], file=f)
     f.close()
     return
      
@@ -1014,9 +1014,9 @@ def moments_analysis_sheet(i,R,N,M,D_omegax,D_omegay,D_omegaz,\
         delta_omega_x,delta_omega_y,delta_omega_z,alpha,COS,SIN):
     """ Prints a moments excel sheet of the formulas"""
     f = open('output/Moments_analysis.csv','a')
-    print >> f, i,",",\
+    print(i,",",\
         R,",",N,",",M,",",D_omegax,",",D_omegay,",",D_omegaz,",",\
-        delta_omega_x,",",delta_omega_y,",",delta_omega_z,",",alpha,",",COS,",",SIN
+        delta_omega_x,",",delta_omega_y,",",delta_omega_z,",",alpha,",",COS,",",SIN, file=f)
     f.close()
     return
  
@@ -1028,13 +1028,13 @@ def energy_sheet(i,mat_TE):
         Gravitational Potential,Total Kinetic,Total Angular Kinetic Y,\
         Total Energy \n")    
     for row in range(0,i,1):
-        print >> f, row,",",\
+        print(row,",",\
             mat_vxE[row],",",mat_vyE[row],",",mat_vzE[row],",",\
             mat_wxE[row],",",mat_wyE[row],",",mat_wzE[row],",",\
             mat_PE[row],",",mat_KE[row],",",mat_AE[row],",",\
-            mat_TE[row]
+            mat_TE[row], file=f)
     f.close()
-    print "Saved Energy Sheet"
+    print("Saved Energy Sheet")
     return
      
 def excel_sheet(i,Open_files = False):
@@ -1048,7 +1048,7 @@ def excel_sheet(i,Open_files = False):
         Angular Velocity X, Angular Velocity Z,\
         Angle of Attack \n")    
     for row in range(0,i,1):
-        print >> f, row,",",\
+        print(row,",",\
             mat_x[row],",",mat_y[row],",",mat_z[row],",",\
             mat_vx[row],",",mat_vy[row],",",mat_vz[row],",",\
             mat_a[row],",",mat_p[row]-90,",",mat_wy[row],",",\
@@ -1056,18 +1056,18 @@ def excel_sheet(i,Open_files = False):
             angle_between(
                 velocity_vec[row],
                 velocity_on_frisbee[row],
-                degrees=True)
+                degrees=True), file=f)
     f.close()
     if Open_files:
         os.system("libreoffice output/Summary_sheet.csv output/Forces_total.csv &")
-    print "Saved Summary Sheet"
+    print("Saved Summary Sheet")
     return
  
 def analyze(i):
     """ Prints an Analysis of the frisbee flight"""
     global may_y,delta_t
-    print "Maximum height of frisbee - ",max(mat_y),"meters"
-    print "Time in Air              - ",i*delta_t,"seconds"
+    print("Maximum height of frisbee - ",max(mat_y),"meters")
+    print("Time in Air              - ",i*delta_t,"seconds")
     return
  
 def draw_vectors(ax,Fancy = False):
@@ -1211,7 +1211,7 @@ def absmax(x):
 def print_alpha():
     """ Prints the angle of attack whenever called"""
     global alpha
-    print alpha
+    print(alpha)
      
 def set_lims(mat_A,mat_B,mat_C,AX):
     MAX =  max(max(mat_A),max(mat_B),max(mat_C))+1      
