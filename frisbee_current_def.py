@@ -711,7 +711,7 @@ def add_words(ax_words,Fancy=False):
         ax_words.add_patch(p)
 
     if Fancy:
-        print_this = "Try these buttons! Or click along the slider"
+        print_this = "Try these buttons!"
     else:
         print_this = "Time (s) = %05.2f \nAlpha (Degrees) = %05.2f \nPhi (Degrees) = %05.2f \
             \nVelocity X (m/s) = %05.2f\nVelocity Y (m/s) = %05.2f\nVelocity Z (m/s) = %05.2f" \
