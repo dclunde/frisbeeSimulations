@@ -5,7 +5,7 @@ Created on Thu Sep 29 14:44:42 2016
 @author: dlunde
 """
     
-def Simulation(overwrite = [],**kwargs):
+def Simulation(CHARLIE = False,overwrite = [],clear_old=False,**kwargs):
 #     global x,y,z,vx,vy,vz,deltavx,deltavy,deltavz,delta_t,mass,\
 #        delta_omega_x,delta_omega_y,delta_omega_z,Ixx,Iyy,Izz,omega_x,omega_y,omega_z,\
 #        alpha,phi,mat_x,mat_y,mat_z,mat_vz,mat_vy,mat_vz,mat_a,mat_p,mat_t,mat_wx,mat_wy,mat_wz
@@ -14,25 +14,21 @@ def Simulation(overwrite = [],**kwargs):
     from frisbee_current_header import *
     from frisbee_current_def import *
     
-    PRINT = True         #If true print outputs
+    PRINT = False                    #If true print outputs
 
+#    CHARLIE = False
     #@profile for timing things
 #    from frisbee_current_header import grab_from_file,initialize_variables
-    if 'choose_throw_type' in kwargs:    
-        choose_throw_type()
-    if 'edit_initial_conditions' in kwargs:
-        edit_initial_conditions()
-    if 'change_temperature' in kwargs:
-        change_temperature()
-    if 'which_planet' in kwargs:
-        which_planet()
-    if 'grab_from_file' in kwargs:
-        grab_from_file()
-        
+#    choose_throw_type()
+    edit_initial_conditions()
+    #which_planet()
     initial_time = time.clock()
     if PRINT:
         print "Beginning Frisbee Simulation"    
-
+    if CHARLIE:
+        grab_from_file()
+    #        frisbee_current_header.grab_from_file()
+    
 
     if not overwrite==[]:
 #        x,y,z,vx,vy,vz,omega_x,omega_y,omega_z,alpha,phi=overwrite
@@ -92,13 +88,12 @@ def Simulation(overwrite = [],**kwargs):
         
         # MOMENTS 
         
-#        moments_sheet(moments(i,delta_omega_x,delta_omega_y,delta_omega_z),i)    #Send forces into the output file
+        moments_sheet(moments(i,delta_omega_x,delta_omega_y,delta_omega_z),i)    #Send forces into the output file
     
-        moments_out= moments(i,omega_x,omega_y,omega_z)
-#        moments_out= moments(i,delta_omega_x,delta_omega_y,delta_omega_z)
+        moments_out= moments(i,delta_omega_x,delta_omega_y,delta_omega_z)
     
         delta_omega_x = moments_out[0] * delta_t / Ixx
-        delta_omega_y = moments_out[1] * delta_t / Iyy
+        detla_omega_y = moments_out[1] * delta_t / Iyy
         delta_omega_z = moments_out[2] * delta_t / Izz
     #    delta_omega_y = W_mag + -rho * (np.linalg.norm(velocity_vec[i]))**2 *\
     #        area/5 * cd *  (1 / (2 * mass)) * -W_mag     
@@ -126,7 +121,7 @@ def Simulation(overwrite = [],**kwargs):
     #    cl,cd = lift_drag(i)
     
         if PRINT:
-            if i*delta_t*100%10 == 0:
+            if i%10 == 0:
                 print i*delta_t,"sec\r",
         
         #Bounce
@@ -156,22 +151,17 @@ def Simulation(overwrite = [],**kwargs):
     if PRINT:
         print "Finished simulation in",time.clock()-initial_time,"seconds"                
 
-    if 'plot_frisbee' in kwargs:
-        plot_frisbee(i,**kwargs)
-    if 'analyze_plots' in kwargs:
-        analyze_plots(i)
-    if 'excel_sheet' in kwargs:
-        excel_sheet(i)
-    if 'calculate_energy' in kwargs:
-        calculate_energy(i,plot=True,save_data=True)
-    if 'analyze' in kwargs:
-        analyze(i)
-    if 'clear_old' in kwargs:
-        if kwargs['clear_old']:
-            clear_mats(i)
+    
+    plot_frisbee(i,**kwargs)
+#    excel_sheet(i)
+#    calculate_energy(i,plot=True,save_data=True)
+    #analyze(i)
+    
+    if clear_old:
+        clear_mats(i)
     
     if PRINT:
         print "Finished everything  in",time.clock()-initial_time,"seconds"
     return
 
-Simulation(plot_frisbee=1,gif=True,rotate=True)
+#Simulation(step=True,Fancy=True,rotate=True)
