@@ -14,7 +14,7 @@ def Simulation(overwrite = [],**kwargs):
     from frisbee_current_header import *
     from frisbee_current_def import *
 
-    PRINT = True         #If true print outputs
+    PRINT = False         #If true print outputs
 
     #@profile for timing things
 #    from frisbee_current_header import grab_from_file,initialize_variables
@@ -181,8 +181,10 @@ def Simulation(overwrite = [],**kwargs):
     
     if PRINT:
         print "Finished everything  in",time.clock()-initial_time,"seconds"
-    
-    return i
+    if 'returnLast' in kwargs:
+        return i
+    else:
+        return
     
     
 

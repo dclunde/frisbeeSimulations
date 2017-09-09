@@ -492,7 +492,9 @@ def make_frisbee(ax,Fancy=False,new_input = 0,new_frisbee_vec=0):
         p2 = [p0[j]+(p1[j])/6 for j in [0,1,2]] 
         p1 = [p0[j]+(p1[j])/4 for j in [0,1,2]]  
 #        R = 0.7
-        R = ax.get_xlim()[1]/6
+        R = ax.get_xlim()[1]/3
+        if R > 1.5:
+            R = 1.5
     else:
         p1 = np.array([current_frisbee_vec[2], current_frisbee_vec[0], current_frisbee_vec[1]]) #point at other end
         p0 = np.array([0, 0, 0]) #point at one end
