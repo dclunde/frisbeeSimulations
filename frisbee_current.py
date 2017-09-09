@@ -5,7 +5,7 @@ Created on Thu Sep 29 14:44:42 2016
 @author: dlunde
 """
     
-def Simulation(CHARLIE = False,overwrite = [],clear_old=False,**kwargs):
+def Simulation(overwrite = [],**kwargs):
 #     global x,y,z,vx,vy,vz,deltavx,deltavy,deltavz,delta_t,mass,\
 #        delta_omega_x,delta_omega_y,delta_omega_z,Ixx,Iyy,Izz,omega_x,omega_y,omega_z,\
 #        alpha,phi,mat_x,mat_y,mat_z,mat_vz,mat_vy,mat_vz,mat_a,mat_p,mat_t,mat_wx,mat_wy,mat_wz
@@ -13,22 +13,29 @@ def Simulation(CHARLIE = False,overwrite = [],clear_old=False,**kwargs):
 
     from frisbee_current_header import *
     from frisbee_current_def import *
-    
-    PRINT = False                    #If true print outputs
 
-#    CHARLIE = False
+    PRINT = True         #If true print outputs
+
     #@profile for timing things
 #    from frisbee_current_header import grab_from_file,initialize_variables
+    if 'choose_throw_type' in kwargs:    
+        choose_throw_type()
+    if 'edit_initial_conditions' in kwargs:
+        edit_initial_conditions()
+    if 'change_temperature' in kwargs:
+        change_temperature()
+    if 'which_planet' in kwargs:
+        which_planet()
+    if 'grab_from_file' in kwargs:
+        grab_from_file()
+        
 #    choose_throw_type()
-    edit_initial_conditions()
+#    edit_initial_conditions()
     #which_planet()
     initial_time = time.clock()
     if PRINT:
         print "Beginning Frisbee Simulation"    
-    if CHARLIE:
-        grab_from_file()
-    #        frisbee_current_header.grab_from_file()
-    
+
 
     if not overwrite==[]:
 #        x,y,z,vx,vy,vz,omega_x,omega_y,omega_z,alpha,phi=overwrite
@@ -119,9 +126,9 @@ def Simulation(CHARLIE = False,overwrite = [],clear_old=False,**kwargs):
         # Update Vectors and Cooeficients    
         update_vectors(i)
     #    cl,cd = lift_drag(i)
-    
+        
         if PRINT:
-            if i%10 == 0:
+            if i*delta_t*100%10 == 0:
                 print i*delta_t,"sec\r",
         
         #Bounce
@@ -147,21 +154,36 @@ def Simulation(CHARLIE = False,overwrite = [],clear_old=False,**kwargs):
         if i >= total_t/delta_t-1:
             print "Ran out of time, ending simulation"
             CONTINUE = False
+            
+            
+        if i > 3/delta_t:
+            CONTINUE = False
+
     
     if PRINT:
         print "Finished simulation in",time.clock()-initial_time,"seconds"                
 
-    
-    plot_frisbee(i,**kwargs)
-#    excel_sheet(i)
-#    calculate_energy(i,plot=True,save_data=True)
-    #analyze(i)
-    
-    if clear_old:
-        clear_mats(i)
+    #plot_frisbee(i,step=True)
+
+    if 'plot_frisbee' in kwargs:
+        plot_frisbee(i,**kwargs)
+    if 'analyze_plots' in kwargs:
+        analyze_plots(i)
+    if 'excel_sheet' in kwargs:
+        excel_sheet(i)
+    if 'calculate_energy' in kwargs:
+        calculate_energy(i,plot=True,save_data=True)
+    if 'analyze' in kwargs:
+        analyze(i)
+    if 'clear_old' in kwargs:
+        if kwargs['clear_old']:
+            clear_mats(i)
     
     if PRINT:
         print "Finished everything  in",time.clock()-initial_time,"seconds"
-    return
+    
+    return i
+    
+    
 
-#Simulation(step=True,Fancy=True,rotate=True)
+#Simulation(analyze_plots=1,calculate_energy=1)

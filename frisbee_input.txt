@@ -1,2 +1,2 @@
-X Pos (m) , Y Pos (m) , Z Pos (m) , X Vel (m/s) , Y Vel (m/s) , Z Vel (m/s) , X A Vel (rot/sec) , Y A Vel (rot/sec) , Z A Vel (rot/sec) , Pitch (degrees) , Roll (degrees) 
-0.0 , 1.0 , 0.0 , 14.0 , 3.0 , 0.0 , 0.0 , 10.0 , 0.0 , 8.0 , 0.0
+X Pos (m) , Y Pos (m) , Z Pos (m) , X Vel (m/s) , Y Vel (m/s) , Z Vel (m/s) , X A Vel (rot/sec) , Y A Vel (rot/sec) , Z A Vel (rot/sec) , Pitch (degrees) , Roll (degrees) , Wind X (m/s) , Wind Y (m/s) , Wind Z (m/s) 
+0 , 1 , 0 , 14 , 3 , 0 , 0 , 10 , 0 , 8 , 0 , 0 , 0 , 0
